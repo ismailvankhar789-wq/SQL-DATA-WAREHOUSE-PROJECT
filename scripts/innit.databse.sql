@@ -4,21 +4,18 @@ SQL DATA WAREHOUSE PROJECT
 Database Initialization Script
 =========================================================
 
-Author  : Ismail Vankhar
-Date    : July 2026
+Author      : Ismail Vankhar
+Project     : SQL Data Warehouse
+Description :
+    This script initializes the Data Warehouse by:
 
-Description:
-This script initializes the SQL Data Warehouse by:
+    1. Dropping the existing database (if it exists)
+    2. Creating a new database
+    3. Creating the Bronze, Silver and Gold schemas
 
-1. Creating the DATAWAREHOUSE database
-2. Creating the BRONZE schema
-3. Creating the SILVER schema
-4. Creating the GOLD schema
-
-Schemas:
-- Bronze : Raw data
-- Silver : Cleaned and transformed data
-- Gold   : Analytics-ready data
+Warning:
+    Running this script will DELETE the existing
+    DataWarehouse database and all its data.
 
 =========================================================
 */
@@ -26,25 +23,39 @@ Schemas:
 USE master;
 GO
 
-IF DB_ID('DATAWAREHOUSE') IS NOT NULL
+-- Drop the database if it already exists
+IF EXISTS (
+    SELECT 1
+    FROM sys.databases
+    WHERE name = 'DataWarehouse'
+)
 BEGIN
-    DROP DATABASE DATAWAREHOUSE;
+    ALTER DATABASE DataWarehouse
+    SET SINGLE_USER
+    WITH ROLLBACK IMMEDIATE;
+
+    DROP DATABASE DataWarehouse;
 END
 GO
 
-CREATE DATABASE DATAWAREHOUSE;
+-- Create a new database
+CREATE DATABASE DataWarehouse;
 GO
 
-USE DATAWAREHOUSE;
+-- Switch to the new database
+USE DataWarehouse;
 GO
 
-CREATE SCHEMA BRONZE;
+-- Create Bronze schema (Raw Data)
+CREATE SCHEMA Bronze;
 GO
 
-CREATE SCHEMA SILVER;
+-- Create Silver schema (Cleaned & Transformed Data)
+CREATE SCHEMA Silver;
 GO
 
-CREATE SCHEMA GOLD;
+-- Create Gold schema (Business Ready Data)
+CREATE SCHEMA Gold;
 GO
 
-PRINT 'Database initialized successfully.';
+PRINT 'Data Warehouse initialized successfully!';
