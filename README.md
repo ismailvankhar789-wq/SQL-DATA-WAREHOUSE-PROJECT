@@ -143,4 +143,4 @@ Business Analytics Student | SQL | Data Analytics | Data Warehousing
 
 ## ⭐ Project Status
 
-🚧 Currently Under Development
+✅ Project Completed
